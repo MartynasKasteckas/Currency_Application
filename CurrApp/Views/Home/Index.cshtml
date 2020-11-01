@@ -1,0 +1,52 @@
+﻿@model CurrApp.ViewModels.HomeControllerViewModel 
+
+<div class="row">
+    <div class="col-md-8">
+        <h2>Currency List:</h2>
+        <label id="SelectedDates">@Model.SearchParameters</label>
+
+            <table class="table">
+                <thred class="thead-light"></thred>
+                <thead class="thead-dark">
+                    <tr>
+                        <th scope="col">Currency</th>
+                        <th scope="col">Rate Change</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var cr in Model.AllCurrencies.Where(c => c.CurrName != ""))
+                    {
+                        <tr>
+                            <td>@cr.CurrName</td>
+                            <td>@cr.CurrRate</td>
+                        </tr>
+                    }
+                    
+                    </tbody>
+                    </table>
+    </div>
+
+    <div class="col-md-4 mt-3" >
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <form id="okok">
+                            <label>Date: </label>
+                            <div>
+                                <input id="Text1" name="InputedDate" class="input-group mb-3" type="date" max="2014-12-31" />
+                            </div>
+
+                            <div>
+                                <input id="Submit1" class="btn btn-group-lg btn-primary" type="submit" value="Get Changes" formmethod="POST" />
+                                <input id="Submit1" class="btn btn-group-lg btn-default" type="submit" value="Clear List" formmethod="GET" />
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
