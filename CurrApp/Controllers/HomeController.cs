@@ -88,7 +88,7 @@ namespace CurrApp.Controllers
         }
 
         //Request
-        static void RecieveDataAndFill(string DateParameter, HomeControllerViewModel obj)
+        private static void RecieveDataAndFill(string DateParameter, HomeControllerViewModel obj)
         {
             var url = "http://www.lb.lt/webservices/ExchangeRates/ExchangeRates.asmx/getExchangeRatesByDate?Date=" + DateParameter;
 
