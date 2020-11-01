@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Net;
-using System.Net.Http; 
+using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Web;
@@ -28,11 +28,10 @@ namespace CurrApp.Controllers
         public ActionResult Index(DateTime? InputedDate)
         {
             var DummyDate = new DateTime();
-            var MaxDate = new DateTime(2014,12,31);
+            var MaxDate = new DateTime(2014, 12, 31);
             var InputedDateforCheck = InputedDate ?? DummyDate;
             if (InputedDateforCheck != DummyDate && InputedDateforCheck <= MaxDate)
             {
-
                 //Set Criteria
                 var FromDate = InputedDateforCheck.AddDays(-1);
                 var STRFromDate = FromDate.ToShortDateString();
@@ -65,7 +64,7 @@ namespace CurrApp.Controllers
         }
 
         //Compare Data and Create final List with Rate Difference
-        private HomeControllerViewModel FinalList (HomeControllerViewModel FromList, HomeControllerViewModel ToList)
+        private HomeControllerViewModel FinalList(HomeControllerViewModel FromList, HomeControllerViewModel ToList)
         {
             HomeControllerViewModel FinalResult = new HomeControllerViewModel();
             foreach (CurrencyModel f in FromList.AllCurrencies)
@@ -103,17 +102,15 @@ namespace CurrApp.Controllers
                     var xdoc = XDocument.Parse(response.Content.ReadAsStringAsync().Result);
 
                     var res = xdoc.Descendants("item");
-                    foreach(var element in res)
+                    foreach (var element in res)
                     {
                         var currency = element.Element("currency").Value;
-                        var rate = element.Element("rate").Value.Replace(".",",");
+                        var rate = element.Element("rate").Value.Replace(".", ",");
                         var doubleRate = Math.Round(Convert.ToDouble(rate), 4);
 
                         obj.AllCurrencies.Add(new CurrencyModel(currency, doubleRate));
                     }
-
                 }
-
             }
         }
     }
