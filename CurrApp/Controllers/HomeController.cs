@@ -27,16 +27,16 @@ namespace CurrApp.Controllers
         [HttpPost]
         public ActionResult Index(DateTime? InputedDate)
         {
-            DateTime DummyDate = Convert.ToDateTime("0001-01-01");
-            DateTime MaxDate = Convert.ToDateTime("2014-12-31");
-            DateTime InputedDateforCheck = InputedDate ?? DummyDate;
+            var DummyDate = new DateTime();
+            var MaxDate = new DateTime(2014,12,31);
+            var InputedDateforCheck = InputedDate ?? DummyDate;
             if (InputedDateforCheck != DummyDate && InputedDateforCheck <= MaxDate)
             {
 
                 //Set Criteria
-                DateTime FromDate = InputedDateforCheck.AddDays(-1);
-                string STRFromDate = FromDate.ToShortDateString();
-                string STRToDate = InputedDateforCheck.ToShortDateString();
+                var FromDate = InputedDateforCheck.AddDays(-1);
+                var STRFromDate = FromDate.ToShortDateString();
+                var STRToDate = InputedDateforCheck.ToShortDateString();
 
                 //Set Data
                 var FirstCurrSet = GetData(STRFromDate);
@@ -57,31 +57,34 @@ namespace CurrApp.Controllers
         }
 
         //Creates Empty Model
-        public HomeControllerViewModel EmptyObject()
+        private HomeControllerViewModel EmptyObject()
         {
             HomeControllerViewModel AllDataEmpty = new HomeControllerViewModel(new CurrencyModel("", 0));
+
             return AllDataEmpty;
         }
 
         //Compare Data and Create final List with Rate Difference
-        public HomeControllerViewModel FinalList (HomeControllerViewModel FromList, HomeControllerViewModel ToList)
+        private HomeControllerViewModel FinalList (HomeControllerViewModel FromList, HomeControllerViewModel ToList)
         {
             HomeControllerViewModel FinalResult = new HomeControllerViewModel();
             foreach (CurrencyModel f in FromList.AllCurrencies)
             {
                 var s = ToList.AllCurrencies.Where(n => n.CurrName == f.CurrName).Single();
-                string DifName = f.CurrName;
-                double DifRate = Math.Round(f.CurrRate - s.CurrRate, 4);
+                var DifName = f.CurrName;
+                var DifRate = Math.Round(f.CurrRate - s.CurrRate, 4);
                 FinalResult.AllCurrencies.Add(new CurrencyModel(DifName, DifRate));
             }
+
             return FinalResult;
         }
 
         //Recieving and Seting DATA
-        public HomeControllerViewModel GetData(String InputedDate)
+        private HomeControllerViewModel GetData(String InputedDate)
         {
             HomeControllerViewModel Alldata = new HomeControllerViewModel();
             RecieveDataAndFill(InputedDate, Alldata);
+
             return Alldata;
         }
 
@@ -104,7 +107,7 @@ namespace CurrApp.Controllers
                     {
                         var currency = element.Element("currency").Value;
                         var rate = element.Element("rate").Value.Replace(".",",");
-                        double doubleRate = Math.Round(Convert.ToDouble(rate), 4);
+                        var doubleRate = Math.Round(Convert.ToDouble(rate), 4);
 
                         obj.AllCurrencies.Add(new CurrencyModel(currency, doubleRate));
                     }
