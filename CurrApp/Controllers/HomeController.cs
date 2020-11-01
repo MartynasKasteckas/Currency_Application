@@ -30,6 +30,7 @@ namespace CurrApp.Controllers
             var DummyDate = new DateTime();
             var MaxDate = new DateTime(2014, 12, 31);
             var InputedDateforCheck = InputedDate ?? DummyDate;
+
             if (InputedDateforCheck != DummyDate && InputedDateforCheck <= MaxDate)
             {
                 //Set Criteria
@@ -64,14 +65,14 @@ namespace CurrApp.Controllers
         }
 
         //Compare Data and Create final List with Rate Difference
-        private HomeControllerViewModel FinalList(HomeControllerViewModel FromList, HomeControllerViewModel ToList)
+        private HomeControllerViewModel FinalList(HomeControllerViewModel FromDateCurrencyDataList, HomeControllerViewModel ToDateCurrencyDataList)
         {
             HomeControllerViewModel FinalResult = new HomeControllerViewModel();
-            foreach (CurrencyModel f in FromList.AllCurrencies)
+            foreach (CurrencyModel SingleFromDateCurrencyData in FromDateCurrencyDataList.AllCurrencies)
             {
-                var s = ToList.AllCurrencies.Where(n => n.CurrName == f.CurrName).Single();
-                var DifName = f.CurrName;
-                var DifRate = Math.Round(f.CurrRate - s.CurrRate, 4);
+                var s = ToDateCurrencyDataList.AllCurrencies.Where(SingleToDateCurrencyData => SingleToDateCurrencyData.CurrName == SingleFromDateCurrencyData.CurrName).Single();
+                var DifName = SingleFromDateCurrencyData.CurrName;
+                var DifRate = Math.Round(SingleFromDateCurrencyData.CurrRate - s.CurrRate, 4);
                 FinalResult.AllCurrencies.Add(new CurrencyModel(DifName, DifRate));
             }
 
